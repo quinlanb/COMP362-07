@@ -44,8 +44,6 @@ int main() {
 
 	}
 
-
-
 	return 0;
 }
 
@@ -74,4 +72,35 @@ void quinterrupt3()
 	printf("Gathering results... Parsing data... generating response...");
 	printf("Response: LOVE DOES NOT COMPUTE");
 	printf("Results inconclusive, Returning to where we left off");
+}
+
+
+void polling()
+{
+	int x = 0; //loop counter
+	int r = 0; //random number
+	int q[10] = {15}; //initializes all elements to 15 because 15 doesnt correspond to any of the interrupts (nothing will happen)
+	int qIter = 0; //first element of q
+
+	while(x <= 30)	//run for 30 loops
+	{
+		printf("CPU running as normal \n");
+		if((x % 5) == 0){ //if this loop is divisible by 5, run all the interrupts that have been loaded
+			printf("Polling for interrupts \n");
+			for(int e = 0; e < 10; e++){   //iterate through q
+				if(q[e] < 12)		//if q[e] is valid (0-11)
+				{	
+					call_ISR(IV[q[e]]); //call the appropriate interrupt method
+				}
+			}
+		}
+		r = rand()*40; //once things have either been executed or not, randomize r
+		if(r < 12){   //if r is valid (0-11)
+			q[qIter] = r; //add r to q
+			qIter++;	//increment qIter so that it doesnt overwrite previous interrupt
+		}
+
+	}
+
+	printf("Oh hey, I guess I finished! I hope you are happy, creator");
 }
